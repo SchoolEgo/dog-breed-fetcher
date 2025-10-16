@@ -13,19 +13,50 @@ import java.util.*;
  * The cache maps the name of a breed to its list of sub breed names.
  */
 public class CachingBreedFetcher implements BreedFetcher {
-    // TODO Task 2: Complete this class
     private int callsMade = 0;
-    public CachingBreedFetcher(BreedFetcher fetcher) {
+    private final BreedFetcher fetcher;
+    private final HashMap<String, List<String>> breeds = new HashMap<>();
 
+    public CachingBreedFetcher(BreedFetcher fetcher) {
+        this.fetcher = fetcher;
     }
 
     @Override
-    public List<String> getSubBreeds(String breed) {
+    public List<String> getSubBreeds(String breed) throws BreedNotFoundException {
         // return statement included so that the starter code can compile and run.
-        return new ArrayList<>();
+        if (breeds.containsKey(breed)) { return breeds.get(breed); }
+        else {
+            List<String> subBreeds = new ArrayList<>();
+
+            try {
+                subBreeds = fetcher.getSubBreeds(breed);
+
+                if (!subBreeds.isEmpty()) {
+                    callsMade++;
+                    breeds.put(breed, subBreeds);
+                } else {
+                    throw new BreedNotFoundException("Dog breed not found");
+                }
+            } catch (BreedNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            return subBreeds;
+        }
     }
 
     public int getCallsMade() {
         return callsMade;
     }
+
+//    public static void main(String[] args) {
+//        DogApiBreedFetcher fetcher = new  DogApiBreedFetcher();
+//        CachingBreedFetcher counter = new CachingBreedFetcher(fetcher);
+//        System.out.println(counter.getSubBreeds("hound"));
+//        counter.getSubBreeds("mastiff");
+//        counter.getSubBreeds("terrier");
+//        System.out.println(counter.getSubBreeds("terrier"));
+//        System.out.println(counter.getCallsMade());
+//        System.out.println(counter.breeds);
+//    }
 }

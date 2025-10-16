@@ -30,7 +30,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
         //      and the documentation for the dog.ceo API. You may find it helpful
         //      to refer to the examples of using OkHttpClient from the last lab,
         //      as well as the code for parsing JSON responses.
-        ArrayList<String> subBreeds = new ArrayList<>();
+        List<String> subBreeds = new ArrayList<>();
 
         final Request request = new Request.Builder()
                 .url(String.format("%s/breed/%s/list", API_URL, breed))
