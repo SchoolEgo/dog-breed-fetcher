@@ -26,19 +26,19 @@ public class CachingBreedFetcher implements BreedFetcher {
         // return statement included so that the starter code can compile and run.
         if (breeds.containsKey(breed)) { return breeds.get(breed); }
         else {
+            callsMade++;
             List<String> subBreeds = new ArrayList<>();
 
             try {
                 subBreeds = fetcher.getSubBreeds(breed);
 
                 if (!subBreeds.isEmpty()) {
-                    callsMade++;
                     breeds.put(breed, subBreeds);
                 } else {
-                    throw new BreedNotFoundException("Dog breed not found");
+                    throw new BreedNotFoundException(breed);
                 }
             } catch (BreedNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new BreedNotFoundException(breed);
             }
 
             return subBreeds;
