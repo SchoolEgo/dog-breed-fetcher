@@ -25,7 +25,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
      * @throws BreedNotFoundException if the breed does not exist (or if the API call fails for any reason)
      */
     @Override
-    public List<String> getSubBreeds(String breed) throws RuntimeException {
+    public List<String> getSubBreeds(String breed) throws RuntimeException, BreedNotFoundException {
         List<String> subBreeds = new ArrayList<>();
 
         final Request request = new Request.Builder()
@@ -49,7 +49,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
 
         }
         catch (IOException | BreedNotFoundException e) {
-            return List.of();
+            throw new BreedNotFoundException(breed);
         }
 
         // return statement included so that the starter code can compile and run.
