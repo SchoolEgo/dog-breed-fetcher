@@ -22,7 +22,7 @@ public class CachingBreedFetcher implements BreedFetcher {
     }
 
     @Override
-    public List<String> getSubBreeds(String breed) throws BreedNotFoundException {
+    public List<String> getSubBreeds(String breed) {
         // return statement included so that the starter code can compile and run.
         if (breeds.containsKey(breed)) { return breeds.get(breed); }
         else {
@@ -34,14 +34,13 @@ public class CachingBreedFetcher implements BreedFetcher {
 
                 if (!subBreeds.isEmpty()) {
                     breeds.put(breed, subBreeds);
+                    return subBreeds;
                 } else {
                     throw new BreedNotFoundException(breed);
                 }
             } catch (BreedNotFoundException e) {
-                throw new BreedNotFoundException(breed);
+                return subBreeds;
             }
-
-            return subBreeds;
         }
     }
 

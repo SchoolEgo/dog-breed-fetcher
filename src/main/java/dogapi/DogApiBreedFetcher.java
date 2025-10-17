@@ -44,12 +44,12 @@ public class DogApiBreedFetcher implements BreedFetcher {
                 }
             }
             else {
-                throw new BreedNotFoundException("Dog breed not found");
+                throw new BreedNotFoundException(breed);
             }
 
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        catch (IOException | BreedNotFoundException e) {
+            return List.of();
         }
 
         // return statement included so that the starter code can compile and run.
